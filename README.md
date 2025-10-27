@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Video-RAC Logo](src/assets/logo.png)
+<img src="src/assets/logo.png" alt="PrismSSL Logo" width="300"/>
 
 **An adaptive chunking methodology for lecture videos using CLIP embeddings and SSIM to construct multimodal chunks for enhanced RAG performance**
 
