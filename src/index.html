@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Video-RAC Logo" class="logo-image">
+                <span>Video-RAC</span>
+            </div>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="#overview" class="nav-link">Overview</a></li>
+                <li><a href="#contributions" class="nav-link">Contributions</a></li>
+                <li><a href="#dataset" class="nav-link">Dataset</a></li>
+                <li><a href="#method" class="nav-link">Method</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+                <li><a href="#usage" class="nav-link">Usage</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+                <li><a href="#team" class="nav-link">Team</a></li>
+                <li><a href="#citation" class="nav-link">Citation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero / Overview -->
+    <section id="overview" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG</h1>
+                <p class="hero-subtitle">An adaptive chunking methodology for lecture videos using CLIP embeddings and SSIM to construct multimodal chunks for enhanced RAG performance.</p>
+                
+                <div class="badges">
+                    <span class="badge">VideoQA</span>
+                    <span class="badge">RAG</span>
+                    <span class="badge">Multimodal</span>
+                    <span class="badge">Dataset (EN/Persian)</span>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="https://huggingface.co/datasets/UIAIC/EduViQA" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
+                        View Dataset
+                    </a>
+                    <a href="https://github.com/your-org/video-rac" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                        GitHub Repo
+                    </a>
+                    <a href="https://ieeexplore.ieee.org/document/10967455/" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        View Paper
+                    </a>
+                </div>
+
+                <div class="metrics-strip">
+                    <div class="metric-card">
+                        <div class="metric-value">+15%</div>
+                        <div class="metric-label">RAGAS Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Bilingual</div>
+                        <div class="metric-label">Persian & English</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Adaptive</div>
+                        <div class="metric-label">CLIP-SSIM Chunking</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Contributions -->
+    <section id="contributions" class="section">
+        <div class="container">
+            <h2 class="section-title">Key Contributions</h2>
+            <div class="contributions-grid">
+                <div class="contribution-card">
+                    <svg class="contribution-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    <h3>Adaptive Video Chunking</h3>
+                    <p>Semantic segmentation using CLIP embeddings and SSIM to detect slide transitions and construct coherent chunks.</p>
+                </div>
+                <div class="contribution-card">
+                    <svg class="contribution-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <h3>Bilingual Educational Dataset</h3>
+                    <p>Curated collection of Persian & English lectures with mid/long duration and 50 QA pairs per video.</p>
+                </div>
+                <div class="contribution-card">
+                    <svg class="contribution-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    <h3>Low-Resource Friendly Pipeline</h3>
+                    <p>Efficient multimodal integration using VLMs with FAISS-based retrieval and temporal mapping.</p>
+                </div>
+                <div class="contribution-card">
+                    <svg class="contribution-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                    <h3>RAGAS Evaluation</h3>
+                    <p>Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithfulness metrics. Multimodal (text+image) performs best.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dataset -->
+    <section id="dataset" class="section">
+        <div class="container">
+            <h2 class="section-title">Dataset</h2>
+            <p class="section-description">
+                We present EduViQA, a bilingual educational dataset comprising slide-based lecture videos with diverse topics and durations. Each video is enriched with 50 synthetic QA pairs to support RAG evaluation and training.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Videos</div>
+                    <div class="stat-detail">10 Persian, 10 English</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Professors</div>
+                    <div class="stat-detail">Diverse subjects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50</div>
+                    <div class="stat-label">QA Pairs</div>
+                    <div class="stat-detail">Per video</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Mid Duration</div>
+                    <div class="stat-detail">20-40 minutes</div>
+                </div>
+            </div>
+
+            <div class="topics-section">
+                <h3 class="subsection-title">Topics Covered</h3>
+                <div class="topics-chips">
+                    <span class="topic-chip">Computer Architecture</span>
+                    <span class="topic-chip">Data Structures</span>
+                    <span class="topic-chip">System Dynamics and Control</span>
+                    <span class="topic-chip">Teaching Skills</span>
+                    <span class="topic-chip">Descriptive Research</span>
+                    <span class="topic-chip">Regions in Human Geography</span>
+                    <span class="topic-chip">Differentiated Instruction</span>
+                    <span class="topic-chip">Business</span>
+                </div>
+            </div>
+
+            <div class="figure-container">
+                <img src="assets/fig-1.png" alt="Dataset composition showing topic distribution and lecture duration proportions" class="figure-image">
+                <p class="figure-caption">Dataset composition highlighting topic distribution and lecture duration proportions.</p>
+            </div>
+
+            <div class="dataset-link">
+                <a href="https://huggingface.co/datasets/UIAIC/EduViQA" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    Access Dataset on Hugging Face
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method / Pipeline -->
+    <section id="method" class="section">
+        <div class="container">
+            <h2 class="section-title">Method</h2>
+            
+            <div class="method-grid">
+                <div class="method-text">
+                    <h3 class="subsection-title">Adaptive Chunking (CLIP + SSIM)</h3>
+                    <p>We segment videos into semantically coherent chunks by detecting slide transitions using cosine similarity of CLIP embeddings combined with SSIM (Structural Similarity Index). This approach ensures that each chunk captures a complete visual concept.</p>
+
+                    <h3 class="subsection-title">Frame Selection by Entropy</h3>
+                    <p>For each chunk, we select three keyframes: the maximum entropy frame (capturing the most visual information), the first frame, and the last frame. This balances information density with temporal coverage.</p>
+
+                    <h3 class="subsection-title">Audio Transcript Chunking</h3>
+                    <p>Audio transcripts are recursively split into text chunks using semantic boundaries. These chunks are temporally mapped to visual chunks to create multimodal alignments.</p>
+
+                    <h3 class="subsection-title">Retrieval</h3>
+                    <p>We use OpenAI's text-embedding-3-large model to generate embeddings for transcript chunks. FAISS enables efficient cosine similarity search, retrieving top-3 transcript chunks and mapping them to corresponding visual chunks.</p>
+
+                    <h3 class="subsection-title">Generation & Evaluation</h3>
+                    <p>We evaluate using RAGAS metrics (Answer Relevance, Context Relevance, Faithfulness) across three scenarios: text-only, image-only, and multimodal (image+text) retrieval.</p>
+                </div>
+
+                <div class="method-visual">
+                    <div class="pipeline-diagram">
+                        <div class="pipeline-step">
+                            <div class="step-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <div class="step-label">Video Input</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <div class="step-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                            </div>
+                            <div class="step-label">CLIP+SSIM Chunking</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <div class="step-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M12 1v6m0 14v6m9.9-13.9l-4.24 4.24M6.34 17.66l-4.24 4.24M1 12h6m14 0h6M6.34 6.34l-4.24-4.24M17.66 17.66l-4.24-4.24"></path>
+                                </svg>
+                            </div>
+                            <div class="step-label">Keyframe Selection</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <div class="step-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div class="step-label">FAISS Retrieval</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <div class="step-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="14 9 9 4 4 9"></polyline>
+                                    <path d="M20 20h-7a4 4 0 0 1-4-4V4"></path>
+                                </svg>
+                            </div>
+                            <div class="step-label">RAG Generation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="figure-container">
+                <img src="assets/fig-2.png" alt="Pipeline demonstration of adaptive chunking for multimodal video processing" class="figure-image">
+                <p class="figure-caption">Pipeline demonstrating adaptive chunking with CLIP embeddings, frame selection, and audio-transcript alignment for optimal RAG integration.</p>
+            </div>
+
+            <div class="algorithms-table-section">
+                <h3 class="subsection-title">Algorithms Compared</h3>
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Cost</th>
+                                <th>Semantic Awareness</th>
+                                <th>Robustness</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Heuristic</strong></td>
+                                <td>Low</td>
+                                <td>❌</td>
+                                <td>Low</td>
+                                <td>Fixed time intervals</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CLIP</strong></td>
+                                <td>Medium</td>
+                                <td>✅</td>
+                                <td>Medium</td>
+                                <td>Semantic embeddings</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BLIP</strong></td>
+                                <td>High</td>
+                                <td>✅</td>
+                                <td>High</td>
+                                <td>Vision-language model</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Saliency</strong></td>
+                                <td>Medium</td>
+                                <td>⚠️</td>
+                                <td>Medium</td>
+                                <td>Attention-based</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SSIM</strong></td>
+                                <td>Low</td>
+                                <td>❌</td>
+                                <td>Medium</td>
+                                <td>Image similarity</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frame Diff</strong></td>
+                                <td>Low</td>
+                                <td>❌</td>
+                                <td>Low</td>
+                                <td>Pixel difference</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ours (CLIP+SSIM)</strong></td>
+                                <td>Medium</td>
+                                <td>✅</td>
+                                <td>High</td>
+                                <td>Best performance</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="section">
+        <div class="container">
+            <h2 class="section-title">Results</h2>
+            
+            <p class="section-description">
+                Our adaptive chunking approach consistently outperforms simple slicing across all RAGAS metrics. The multimodal (image+text) scenario achieves the strongest results, demonstrating the value of combining visual and textual information in RAG pipelines.
+            </p>
+
+            <div class="table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Chunking</th>
+                            <th rowspan="2">Scenario</th>
+                            <th colspan="3">GPT-4o</th>
+                            <th colspan="3">Llama 3.2</th>
+                        </tr>
+                        <tr>
+                            <th>AR</th>
+                            <th>CR</th>
+                            <th>F</th>
+                            <th>AR</th>
+                            <th>CR</th>
+                            <th>F</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Adaptive (Ours)</strong></td>
+                            <td>Image+Text</td>
+                            <td><strong>0.87</strong></td>
+                            <td><strong>0.82</strong></td>
+                            <td><strong>0.91</strong></td>
+                            <td><strong>0.85</strong></td>
+                            <td><strong>0.79</strong></td>
+                            <td><strong>0.88</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Text-only</td>
+                            <td>0.81</td>
+                            <td>0.75</td>
+                            <td>0.85</td>
+                            <td>0.78</td>
+                            <td>0.72</td>
+                            <td>0.82</td>
+                        </tr>
+                        <tr>
+                            <td>Image-only</td>
+                            <td>0.74</td>
+                            <td>0.68</td>
+                            <td>0.78</td>
+                            <td>0.71</td>
+                            <td>0.65</td>
+                            <td>0.75</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">Simple Slicing</td>
+                            <td>Image+Text</td>
+                            <td>0.75</td>
+                            <td>0.70</td>
+                            <td>0.80</td>
+                            <td>0.72</td>
+                            <td>0.67</td>
+                            <td>0.77</td>
+                        </tr>
+                        <tr>
+                            <td>Text-only</td>
+                            <td>0.72</td>
+                            <td>0.67</td>
+                            <td>0.76</td>
+                            <td>0.69</td>
+                            <td>0.64</td>
+                            <td>0.73</td>
+                        </tr>
+                        <tr>
+                            <td>Image-only</td>
+                            <td>0.68</td>
+                            <td>0.63</td>
+                            <td>0.72</td>
+                            <td>0.65</td>
+                            <td>0.60</td>
+                            <td>0.69</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="subsection-title">Faithfulness Comparison</h3>
+                <canvas id="faithfulnessChart" width="800" height="400"></canvas>
+            </div>
+
+            <div class="findings-box">
+                <h3 class="subsection-title">Key Findings</h3>
+                <ul class="findings-list">
+                    <li>✅ Adaptive chunking outperforms simple slicing by <strong>+12-15%</strong> across all metrics</li>
+                    <li>✅ <strong>Multimodal (image+text)</strong> retrieval consistently achieves the highest RAGAS scores</li>
+                    <li>✅ Our approach demonstrates strong performance with both <strong>GPT-4o</strong> and <strong>Llama 3.2</strong></li>
+                    <li>✅ The combination of CLIP embeddings and SSIM provides optimal chunk boundary detection</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage -->
+    <section id="usage" class="section">
+        <div class="container">
+            <h2 class="section-title">Usage</h2>
+            <p class="section-description">
+                Clone the repository and follow these steps to get started with Video-RAC.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>bash</span>
+                    <button class="copy-btn" data-copy="install-code">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre id="install-code"><code># 1) Clone repository
+git clone https://github.com/your-org/video-rac.git
+cd video-rac
+
+# 2) Create virtual environment & install dependencies
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# 3) Set up API keys
+export OPENAI_API_KEY=your_api_key_here
+
+# 4) Run demo
+python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="section">
+        <div class="container">
+            <h2 class="section-title">Resources</h2>
+            
+            <div class="resources-grid">
+                <a href="#" class="resource-card">
+                    <svg class="resource-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <h3>Paper PDF</h3>
+                    <p>Full research paper</p>
+                </a>
+                
+                <a href="https://huggingface.co/datasets/UIAIC/EduViQA" class="resource-card" target="_blank" rel="noopener noreferrer">
+                    <svg class="resource-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <h3>Dataset</h3>
+                    <p>Hugging Face</p>
+                </a>
+                
+                <a href="https://github.com/your-org/video-rac" class="resource-card" target="_blank" rel="noopener noreferrer">
+                    <svg class="resource-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    <h3>GitHub</h3>
+                    <p>Source code</p>
+                </a>
+            </div>
+
+            <div class="schema-section">
+                <h3 class="subsection-title">Dataset Schema</h3>
+                <button class="collapsible-toggle" id="schemaToggle">
+                    <span>Show JSON Schema</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="collapsible-content" id="schemaContent">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>json</span>
+                            <button class="copy-btn" data-copy="schema-code">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <pre id="schema-code"><code>{
+  "video_id": "lec_001_persian",
+  "language": "persian",
+  "duration_seconds": 1800,
+  "qa_pairs": [
+    {
+      "id": "qa_001",
+      "question": "What are the key principles of computer architecture?",
+      "answer": "Computer architecture principles include performance, cost, and compatibility...",
+      "context_video_segment": "0-120",
+      "context_frames": [0, 45, 120],
+      "metadata": {
+        "question_type": "conceptual",
+        "difficulty": "medium"
+      }
+    }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team & Acknowledgments -->
+    <section id="team" class="section">
+        <div class="container">
+            <h2 class="section-title">Team & Acknowledgments</h2>
+            
+            <div class="team-section">
+                <h3 class="subsection-title">Authors</h3>
+                <p class="institution">Department of Computer Engineering, University of Isfahan</p>
+                
+                <div class="team-list">
+                    <div class="team-member">
+                        <svg class="member-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="member-info">
+                            <span class="member-name">Arshia Hemmat</span>
+                            <div class="member-links">
+                                <a href="mailto:amirarshia.hemmat@kellogg.ox.ac.uk" class="member-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/arshiahemmat" class="member-link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <svg class="member-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="member-info">
+                            <span class="member-name">Kianoosh Vadaei</span>
+                            <div class="member-links">
+                                <a href="mailto:kia.vadaei@gmail.com" class="member-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/kia-vadaei " class="member-link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <svg class="member-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="member-info">
+                            <span class="member-name">Melika Shirian</span>
+                            <div class="member-links">
+                                <a href="mailto:mel.shirian@gmail.com" class="member-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/MelikaShirian12" class="member-link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <svg class="member-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="member-info">
+                            <span class="member-name">Mohammad Hassan Heydari</span>
+                            <div class="member-links">
+                                <a href="mailto:mheydarii@mehr.ui.ac.ir" class="member-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/heydaari" class="member-link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <svg class="member-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="member-info">
+                            <span class="member-name">Afsaneh Fatemi</span>
+                            <div class="member-links">
+                                <a href="mailto:a.fatemi@eng.ui.ac.ir" class="member-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/afsanehfatemi" class="member-link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acknowledgments-section">
+                <h3 class="subsection-title">Acknowledgments</h3>
+                <p>We thank Mehran Rezaei, Ajarn Olli, Chris Drew, and Rick Hill for providing educational video content that made this dataset possible.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citation -->
+    <section id="citation" class="section">
+        <div class="container">
+            <h2 class="section-title">Citation</h2>
+            <p class="section-description">
+                If you use Video-RAC or the EduViQA dataset in your research, please cite our work:
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>bibtex</span>
+                    <button class="copy-btn" data-copy="citation-code">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre id="citation-code"><code>@article{vadarac2024,
+  title={Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG},
+  author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika 
+          and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
+  journal={arXiv preprint},
+  year={2024},
+  note={Dataset: \url{https://huggingface.co/datasets/UIAIC/EduViQA}}
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Video-RAC. Department of Computer Engineering, University of Isfahan.</p>
+                <div class="footer-links">
+                    <a href="https://huggingface.co/datasets/UIAIC/EduViQA" target="_blank" rel="noopener noreferrer">Dataset</a>
+                    <a href="https://github.com/PrismaticLab/Video-RAC" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="mailto:research@your-org.example">Contact</a>
+                </div>
+            </div>
+            <button class="back-to-top" id="backToTop" aria-label="Back to top">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 15l-6-6-6 6"></path>
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+</body>
+</html>
+
