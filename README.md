@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="src/assets/logo.png" alt="PrismSSL Logo" width="300"/>
+<img src="docs/assets/logo.png" alt="PrismSSL Logo" width="300"/>
 
 **An adaptive chunking methodology for lecture videos using CLIP embeddings and SSIM to construct multimodal chunks for enhanced RAG performance**
 
@@ -47,7 +47,7 @@ Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithful
 
 ### EduViQA: Bilingual Educational Video QA Dataset
 
-![Dataset Composition](src/assets/fig-1.png)
+![Dataset Composition](docs/assets/fig-1.png)
 *Dataset composition highlighting topic distribution and lecture duration proportions.*
 
 ### Dataset Statistics
@@ -76,7 +76,7 @@ Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithful
 
 ## 🔬 Method
 
-![Pipeline Diagram](src/assets/fig-2.png)
+![Pipeline Diagram](docs/assets/fig-2.png)
 *Pipeline demonstrating adaptive chunking with CLIP embeddings, frame selection, and audio-transcript alignment for optimal RAG integration.*
 
 ### Pipeline Stages
