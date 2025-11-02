@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+recursive-include VideoRAC *.py
+recursive-include VideoRAC *.png *.jpg *.jpeg *.gif
+recursive-include VideoRAC *.json
+recursive-include VideoRAC *.txt
+recursive-include VideoRAC *.pkl
+prune tests
