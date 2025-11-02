@@ -46,10 +46,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/VideoRAC"       # update
-Repository = "https://github.com/your-org/VideoRAC"     # update
-Issues = "https://github.com/your-org/VideoRAC/issues"  # update
-Documentation = "https://github.com/your-org/VideoRAC"  # update
+Homepage = "https://prismaticlab.github.io/Video-RAC/"       # update
+Repository = "https://github.com/PrismaticLab/Video-RAC"     # update
+Issues = "https://github.com/PrismaticLab/Video-RAC/issues"  # update
+Documentation = "https://prismaticlab.github.io/Video-RAC/"  # update
 
 [tool.setuptools]
 include-package-data = true
