@@ -124,13 +124,16 @@ Licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
 You may share and adapt this work with attribution. Please cite our paper when using VideoRAC or EduViQA:
 
 ```bibtex
-@inproceedings{hem2025videorac,
-  title={Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset},
+@INPROCEEDINGS{10967455,
   author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
-  booktitle={30th International Computer Society of Iran Computer Conference (CSICC 2025)},
+  booktitle={2025 29th International Computer Conference, Computer Society of Iran (CSICC)}, 
+  title={Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset}, 
   year={2025},
-  organization={IEEE}
-}
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Measurement;Visualization;Large language models;Pipelines;Retrieval augmented generation;Education;Question answering (information retrieval);Multilingual;Standards;Context modeling;Video QA;Datasets Preparation;Academic Question Answering;Multilingual},
+  doi={10.1109/CSICC65765.2025.10967455}}
 ```
 
 ---
