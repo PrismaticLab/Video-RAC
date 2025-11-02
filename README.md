@@ -93,7 +93,13 @@ pip install -r requirements.txt
 ```python
 from VideoRAC.Modules import HybridChunker
 
-chunker = HybridChunker(alpha=0.6, threshold_embedding=0.85)
+chunker = HybridChunker(
+    clip_model = 'openai/clip-vit-base-patch32',
+    alpha=0.6,
+    threshold_embedding=0.85,
+    threshold_ssim: float = 0.8,
+    interval: int = 1,
+)
 chunks, timestamps, duration = chunker.chunk("lecture.mp4")
 chunker.evaluate()
 ```
