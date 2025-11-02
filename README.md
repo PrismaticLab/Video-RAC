@@ -64,14 +64,7 @@ This framework underpins the **EduViQA bilingual dataset**, designed for evaluat
 ## ⚙️ Installation
 
 ```bash
-# Clone repository
-git clone https://github.com/your-org/VideoRAC.git
-cd VideoRAC
-
-# Create environment & install
-ython -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install VideoRAC
 ```
 
 ---
