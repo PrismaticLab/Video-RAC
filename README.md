@@ -142,10 +142,10 @@ You may share and adapt this work with attribution. Please cite our paper when u
 
 **University of Isfahan — Department of Computer Engineering**
 
-* **Kianoosh Vadaei** — [k.vadaei@eng.ui.ac.ir](mailto:k.vadaei@eng.ui.ac.ir)
-* **Melika Shirian** — [m.shirian@eng.ui.ac.ir](mailto:m.shirian@eng.ui.ac.ir)
-* **Arshia Hemmat** — [a.hemmat@eng.ui.ac.ir](mailto:a.hemmat@eng.ui.ac.ir)
-* **Mohammad Hassan Heydari** — [mh.heydari@eng.ui.ac.ir](mailto:mh.heydari@eng.ui.ac.ir)
+* **Kianoosh Vadaei** — [k.vadaei@eng.ui.ac.ir](mailto:kia.vadaei@gmail.com)
+* **Melika Shirian** — [m.shirian@eng.ui.ac.ir](mailto:mel.shirian@gmail.com)
+* **Arshia Hemmat** — [a.hemmat@eng.ui.ac.ir](mailto:amirarshia.hemmat@kellogg.ox.ac.uk)
+* **Mohammad Hassan Heydari** — [mh.heydari@eng.ui.ac.ir](mailto:heidary0081@gmail.com)
 * **Afsaneh Fatemi** — [a.fatemi@eng.ui.ac.ir](mailto:a.fatemi@eng.ui.ac.ir)
 
 ---
