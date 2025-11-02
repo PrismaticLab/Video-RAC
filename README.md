@@ -47,16 +47,6 @@ This repository is the **official implementation** of the CSICC 2025 paper by *H
 
 ---
 
-## 🧩 Core Components
-
-| Module                        | Class                  | Description                                                                                      |
-| ----------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------ |
-| `processing.chunking.py`      | **`HybridChunker`**    | Detects slide transitions using CLIP embeddings and SSIM to segment videos into coherent chunks. |
-| `processing.entropy_utils.py` | **`EntropyUtils`**     | Computes frame entropy for selecting representative keyframes.                                   |
-| `processing.qa_generation.py` | **`VideoQAGenerator`** | Generates structured Q&A pairs using transcripts and visual frame descriptions.                  |
-
----
-
 ## 🧠 Research Background
 
 This framework underpins the **EduViQA bilingual dataset**, designed for evaluating lecture-based RAG systems in both Persian and English. The dataset and code form a unified ecosystem for multimodal question generation and retrieval evaluation.
