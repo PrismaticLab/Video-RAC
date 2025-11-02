@@ -1,4 +1,7 @@
 import logging
+import math
+import os
+from pathlib import Path
 from time import time
 
 import cv2
@@ -8,10 +11,14 @@ from skimage.metrics import structural_similarity as ssim
 from tqdm.auto import tqdm
 from transformers import CLIPModel, CLIPProcessor
 
-import VideoRAC.Modules.entropy_utils as E
+import VideoRAC.utils.entropy_utils as E
+from VideoRAC.utils.logging_utils import get_logger_handler
+
 
 logger = logging.getLogger(__name__)
-
+if not logger.hasHandlers():
+    logger.addHandler(get_logger_handler())
+logger.setLevel(logging.INFO)
 
 class HybridChunker:
     """
@@ -31,16 +38,23 @@ class HybridChunker:
         Sampling interval (seconds) between analyzed frames.
     alpha : float, optional
         Weight for embedding similarity in the hybrid score (0..1).
+    output_dir : str or Path, optional
+        Default directory where chunk images will be saved. Can be overridden
+        per call in `chunk(...)`. Defaults to "./chunks_out".
+    image_format : {"png","jpg","jpeg","webp"}, optional
+        File format for saved frames. Defaults to "png".
     """
 
     def __init__(
         self,
-        clip_model: str = '"openai/clip-vit-base-patch32"',
+        clip_model: str = 'openai/clip-vit-base-patch32',
         *,
         threshold_embedding: float = 0.8,
         threshold_ssim: float = 0.8,
         interval: int = 1,
         alpha: float = 0.5,
+        output_dir: str | os.PathLike = "chunks_out",
+        image_format: str = "png",
     ):
         try:
             self._clip_model_id = clip_model
@@ -52,6 +66,10 @@ class HybridChunker:
             self._threshold_ssim = float(threshold_ssim)
             self._interval = int(interval)
             self._alpha = float(alpha)
+
+            # saving configuration
+            self._output_dir = Path(output_dir)
+            self._image_format = str(image_format).lower().strip(".") or "png"
 
             # results
             self._chunks = None
@@ -92,6 +110,16 @@ class HybridChunker:
     def alpha(self) -> float:
         """Weight of embedding similarity in the hybrid score (0..1)."""
         return self._alpha
+
+    @property
+    def output_dir(self) -> Path:
+        """Default directory where chunk images will be saved."""
+        return self._output_dir
+
+    @property
+    def image_format(self) -> str:
+        """Image file format used when saving frames."""
+        return self._image_format
 
     @property
     def chunks(self):
@@ -150,6 +178,81 @@ class HybridChunker:
         except Exception as e:
             logger.exception("💥 Error computing mean entropy: %s", e)
             raise
+
+    # -------------------------------------------------------------------------
+    # Saving helpers
+    # -------------------------------------------------------------------------
+
+    def _ensure_dir(self, path: Path):
+        """Create directory if it does not exist."""
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            logger.exception("💥 Failed to create directory %s: %s", path, e)
+            raise
+
+    def _save_chunks(
+        self,
+        *,
+        output_dir: str | os.PathLike | None = None,
+        image_format: str | None = None,
+        prefix: str | None = None,
+    ) -> list[list[Path]]:
+        """
+        Save each frame image from the computed chunks to disk.
+
+        Parameters
+        ----------
+        output_dir : str or Path, optional
+            Root directory where chunks are written. Defaults to the instance
+            `output_dir` set at initialization.
+        image_format : {"png","jpg","jpeg","webp"}, optional
+            File format for saved images. Defaults to the instance `image_format`.
+        prefix : str, optional
+            Optional prefix to help identify outputs for a particular video.
+
+        Returns
+        -------
+        list[list[pathlib.Path]]
+            Paths to saved images, grouped by chunk. Each inner list contains
+            the file paths for images belonging to that chunk.
+
+        Notes
+        -----
+        - `self._chunks` is a list of lists. Each inner list contains frames
+          (images) that will be written individually.
+        - Chunk folders are created as: {output_dir}/{prefix_}chunk_0001, ...
+        """
+        if not self._chunks:
+            logger.warning("ℹ️ No chunks to save.")
+            return []
+
+        fmt = (image_format or self._image_format).lower().strip(".")
+        root = Path(output_dir) if output_dir is not None else self._output_dir
+        self._ensure_dir(root)
+
+        saved_paths: list[list[Path]] = []
+        for c_idx, frames in enumerate(self._chunks, start=1):
+            chunk_dir_name = f"{(prefix + '_') if prefix else ''}chunk_{c_idx:04d}"
+            chunk_dir = root / chunk_dir_name
+            self._ensure_dir(chunk_dir)
+
+            paths_for_chunk: list[Path] = []
+            for f_idx, frame in enumerate(frames, start=1):
+                out_path = chunk_dir / f"frame_{f_idx:04d}.{fmt}"
+                try:
+                    # OpenCV expects BGR; frames are already BGR.
+                    ok = cv2.imwrite(str(out_path), frame)
+                    if not ok:
+                        raise RuntimeError("cv2.imwrite returned False")
+                    paths_for_chunk.append(out_path)
+                except Exception as e:
+                    logger.exception("💥 Failed to write %s: %s", out_path, e)
+                    raise
+            saved_paths.append(paths_for_chunk)
+
+        logger.info("💾 Saved %d chunks to %s ✅", len(saved_paths), root)
+        return saved_paths
 
     # -------------------------------------------------------------------------
     # Core internals
@@ -222,6 +325,12 @@ class HybridChunker:
             raise
 
         try:
+            # Estimate total steps for tqdm so it completes at 100%
+            fps = cap.get(cv2.CAP_PROP_FPS) or 0.0
+            frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0.0
+            duration_sec = (frame_count / fps) if (fps > 0 and frame_count > 0) else None
+            estimated_steps = math.ceil(duration_sec / step) if duration_sec else None
+
             success, frame = cap.read()
 
             frame_lst = []
@@ -237,8 +346,13 @@ class HybridChunker:
             timestamp = 0
             timestamps = []
 
-            # Progress bar without altering loop logic or termination.
-            pbar = tqdm(desc="⏳ Processing frames", unit="frame", leave=False)
+            # Progress bar: show total if we could estimate it; ensure it reaches 100%.
+            pbar = tqdm(
+                total=estimated_steps,
+                desc="⏳ Processing frames",
+                unit="frame",
+                leave=True
+            )
 
             while cap.isOpened():
                 cap.set(cv2.CAP_PROP_POS_MSEC, timestamp * 1000)
@@ -268,7 +382,15 @@ class HybridChunker:
                 timestamp += step
                 pbar.update(1)
 
+            # Flush last (possibly open) chunk if it has frames.
+            if frame_lst:
+                hybrid_chunks.append(frame_lst)
+
+            # Ensure progress bar reaches 100% if total was set.
+            if pbar.total is not None and pbar.n < pbar.total:
+                pbar.update(pbar.total - pbar.n)
             pbar.close()
+
             cap.release()
             logger.info("✅ Slide detection complete. Segments: %d 🎬", len(hybrid_chunks))
             return hybrid_chunks, timestamps
@@ -285,14 +407,33 @@ class HybridChunker:
     # Public API
     # -------------------------------------------------------------------------
 
-    def chunk(self, video_path):
+    def chunk(
+        self,
+        video_path: str,
+        *,
+        save: bool = True,
+        output_dir: str | os.PathLike | None = None,
+        image_format: str | None = None,
+        prefix: str | None = None,
+    ):
         """
         Run detection and record execution time using the instance configuration.
+        Optionally save the resulting chunk frames to disk.
 
         Parameters
         ----------
         video_path : str
             Path to a video file.
+        save : bool, optional
+            If True, saves chunk images at the end using `_save_chunks(...)`.
+            Defaults to True.
+        output_dir : str or Path, optional
+            Root directory for saving results; overrides the instance default.
+        image_format : {"png","jpg","jpeg","webp"}, optional
+            File format for saved frames; overrides the instance default.
+        prefix : str, optional
+            Optional prefix for the per-chunk directory names to distinguish
+            outputs (e.g., a short video identifier).
 
         Returns
         -------
@@ -312,6 +453,14 @@ class HybridChunker:
             self._exe_time = end_time - start_time
             logger.info("⏱️ Chunking finished in %.2f s. Chunks: %d 🎉",
                         self._exe_time, len(self._chunks) if self._chunks else 0)
+
+            if save:
+                self._save_chunks(
+                    output_dir=output_dir,
+                    image_format=image_format,
+                    prefix=prefix,
+                )
+
             return self._chunks, slide_change_timestamps, self._exe_time
         except Exception as e:
             logger.exception("💥 Error in chunk(): %s", e)
