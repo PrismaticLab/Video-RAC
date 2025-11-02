@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "VideoRAC"
-version = "0.1.5"
+version = "0.2.1"
 description = "Video Retrieval-Augmented Chunking and Q&A Generation Toolkit"
 readme = "README.md"
 requires-python = ">=3.9"
