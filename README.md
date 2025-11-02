@@ -29,7 +29,7 @@
 
 <!-- ✨ Placeholder for horizontal pipeline image ✨ -->
 
-<img src="docs/assets/pipeline.png" alt="VideoRAC Pipeline" width="900"/>
+<img src="docs/assets/fig-2.png" alt="VideoRAC Pipeline" width="900"/>
 
 </div>
 
