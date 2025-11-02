@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌐 **VideoRAC**: *Retrieval-Adaptive Chunking for Lecture Video RAG*
+# 🪄🎓 **VideoRAC**: *Retrieval-Adaptive Chunking for Lecture Video RAG*
 
 </div>
 
