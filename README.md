@@ -1,11 +1,17 @@
-# VideoRAC: Retrieval-Adaptive Chunking for Lecture Video RAG (Official CSICC 2025 Implementation)
+<div align="center">
+
+# 🌐 **VideoRAC**: *Retrieval-Adaptive Chunking for Lecture Video RAG*
+
+</div>
 
 <div align="center">
 
 <img src="docs/assets/logo.png" alt="VideoRAC Logo" width="300"/>
 
-**Official implementation of the CSICC 2025 paper**
-**“Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset”**
+### 🏛️ *Official CSICC 2025 Implementation*
+
+#### "Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset"
+
 *(Presented at the 30th International Computer Society of Iran Computer Conference — CSICC 2025)*
 
 [![Paper](https://img.shields.io/badge/Paper-CSICC%202025-blue)](https://ieeexplore.ieee.org/document/10967455)
@@ -17,15 +23,27 @@
 
 ---
 
+## 📊 Project Pipeline
+
+<div align="center">
+
+<!-- ✨ Placeholder for horizontal pipeline image ✨ -->
+
+<img src="docs/assets/pipeline.png" alt="VideoRAC Pipeline" width="900"/>
+
+</div>
+
+---
+
 ## 📖 Overview
 
-**VideoRAC** (Video Retrieval-Adaptive Chunking) provides a complete framework for multimodal retrieval-augmented generation (RAG) in educational videos. This toolkit integrates **visual-semantic chunking**, **entropy-based keyframe selection**, and **LLM-driven question generation** to enable effective multimodal retrieval.
+**VideoRAC** (Video Retrieval-Adaptive Chunking) provides a comprehensive framework for multimodal retrieval-augmented generation (RAG) in educational videos. This toolkit integrates **visual-semantic chunking**, **entropy-based keyframe selection**, and **LLM-driven question generation** to enable effective multimodal retrieval.
 
-This repository is the **official implementation** of the paper:
+This repository is the **official implementation** of the CSICC 2025 paper by *Hemmat et al.*
 
 > **Hemmat, A., Vadaei, K., Shirian, M., Heydari, M.H., Fatemi, A.**
-> *“Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset,”*
-> Proceedings of the 30th International Computer Society of Iran Computer Conference (CSICC 2025), University of Isfahan, 2025.
+> *“Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset.”*
+> *Proceedings of the 30th International Computer Society of Iran Computer Conference (CSICC 2025), University of Isfahan.*
 
 ---
 
@@ -43,13 +61,13 @@ This repository is the **official implementation** of the paper:
 
 This framework underpins the **EduViQA bilingual dataset**, designed for evaluating lecture-based RAG systems in both Persian and English. The dataset and code form a unified ecosystem for multimodal question generation and retrieval evaluation.
 
-**Key Contributions (per paper):**
+**Key Contributions:**
 
-* 🎥 **Adaptive Hybrid Chunking:** Combines CLIP cosine similarity with SSIM-based visual comparison.
-* 🧮 **Entropy-Based Keyframe Selection:** Extracts high-information frames for retrieval.
-* 🗣️ **Transcript–Frame Alignment:** Synchronizes ASR transcripts with visual semantics.
-* 🔍 **Multimodal Retrieval:** Integrates visual and textual embeddings for RAG.
-* 🧠 **Benchmark Dataset:** 20 bilingual educational videos, 50 QA pairs each.
+* 🎥 Adaptive Hybrid Chunking — Combines CLIP cosine similarity with SSIM-based visual comparison.
+* 🧮 Entropy-Based Keyframe Selection — Extracts high-information frames for retrieval.
+* 🗣️ Transcript–Frame Alignment — Synchronizes ASR transcripts with visual semantics.
+* 🔍 Multimodal Retrieval — Integrates visual and textual embeddings for RAG.
+* 🧠 Benchmark Dataset — 20 bilingual educational videos with 50 QA pairs each.
 
 ---
 
@@ -60,7 +78,8 @@ This framework underpins the **EduViQA bilingual dataset**, designed for evaluat
 git clone https://github.com/your-org/VideoRAC.git
 cd VideoRAC
 
-# Create environment & install\python -m venv .venv
+# Create environment & install
+ython -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
@@ -79,7 +98,7 @@ chunks, timestamps, duration = chunker.chunk("lecture.mp4")
 chunker.evaluate()
 ```
 
-### 2️⃣ Generate Q&A
+### 2️⃣ Q&A Generation
 
 ```python
 from VideoRAC import VideoQAGenerator
@@ -97,7 +116,7 @@ qa.process_videos()
 
 ---
 
-## 📊 Results Summary (from CSICC 2025)
+## 📈 Results Summary (CSICC 2025)
 
 | Method                   | AR       | CR       | F        | Notes                        |
 | ------------------------ | -------- | -------- | -------- | ---------------------------- |
@@ -109,11 +128,11 @@ qa.process_videos()
 
 ---
 
-## 🧾 License (CC BY 4.0)
+## 🧾 License
 
-This repository and its dataset are licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
+Licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
 
-You are free to share and adapt the work with attribution. When using VideoRAC or EduViQA in research, please cite the CSICC 2025 paper:
+You may share and adapt this work with attribution. Please cite our paper when using VideoRAC or EduViQA:
 
 ```bibtex
 @inproceedings{hem2025videorac,
@@ -129,11 +148,11 @@ You are free to share and adapt the work with attribution. When using VideoRAC o
 
 ## 👥 Authors
 
-**University of Isfahan, Department of Computer Engineering**
+**University of Isfahan — Department of Computer Engineering**
 
-* **Arshia Hemmat** — [a.hemmat@eng.ui.ac.ir](mailto:a.hemmat@eng.ui.ac.ir)
 * **Kianoosh Vadaei** — [k.vadaei@eng.ui.ac.ir](mailto:k.vadaei@eng.ui.ac.ir)
 * **Melika Shirian** — [m.shirian@eng.ui.ac.ir](mailto:m.shirian@eng.ui.ac.ir)
+* **Arshia Hemmat** — [a.hemmat@eng.ui.ac.ir](mailto:a.hemmat@eng.ui.ac.ir)
 * **Mohammad Hassan Heydari** — [mh.heydari@eng.ui.ac.ir](mailto:mh.heydari@eng.ui.ac.ir)
 * **Afsaneh Fatemi** — [a.fatemi@eng.ui.ac.ir](mailto:a.fatemi@eng.ui.ac.ir)
 
