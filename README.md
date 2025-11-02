@@ -91,7 +91,7 @@ pip install -r requirements.txt
 ### 1️⃣ Hybrid Chunking
 
 ```python
-from VideoRAC import HybridChunker
+from VideoRAC.Modules import HybridChunker
 
 chunker = HybridChunker(alpha=0.6, threshold_embedding=0.85)
 chunks, timestamps, duration = chunker.chunk("lecture.mp4")
@@ -101,7 +101,7 @@ chunker.evaluate()
 ### 2️⃣ Q&A Generation
 
 ```python
-from VideoRAC import VideoQAGenerator
+from VideoRAC.Modules import VideoQAGenerator
 
 def my_llm_fn(messages):
     from openai import OpenAI
