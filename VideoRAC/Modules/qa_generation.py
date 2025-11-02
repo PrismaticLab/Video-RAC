@@ -12,8 +12,12 @@ from tqdm.auto import tqdm
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
-logger = logging.getLogger(__name__)
+from VideoRAC.utils.logging_utils import get_logger_handler
 
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logger.addHandler(get_logger_handler())
+logger.setLevel(logging.INFO)
 
 def _sanitize_filename(name: str) -> str:
     """
