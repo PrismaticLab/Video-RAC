@@ -6,7 +6,7 @@
 
 <div align="center">
 
-<img src="docs/assets/logo.png" alt="VideoRAC Logo" width="300"/>
+<img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/logo.png?raw=true" alt="VideoRAC Logo" width="300"/>
 
 ### 🏛️ *Official CSICC 2025 Implementation*
 
@@ -29,7 +29,7 @@
 
 <!-- ✨ Placeholder for horizontal pipeline image ✨ -->
 
-<img src="docs/assets/fig-2.png" alt="VideoRAC Pipeline" width="900"/>
+<img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/fig-2.png?raw=true" alt="VideoRAC Pipeline" width="900"/>
 
 </div>
 
