@@ -59,7 +59,7 @@
                         </svg>
                         View Dataset
                     </a>
-                    <a href="https://github.com/your-org/video-rac" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/PrismaticLab/Video-RAC/tree/main" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                         <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                         </svg>
@@ -147,11 +147,7 @@
                     <div class="stat-label">Videos</div>
                     <div class="stat-detail">10 Persian, 10 English</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">5</div>
-                    <div class="stat-label">Professors</div>
-                    <div class="stat-detail">Diverse subjects</div>
-                </div>
+
                 <div class="stat-card">
                     <div class="stat-number">50</div>
                     <div class="stat-label">QA Pairs</div>
@@ -455,41 +451,71 @@
         </div>
     </section>
 
-    <!-- Usage -->
-    <section id="usage" class="section">
-        <div class="container">
-            <h2 class="section-title">Usage</h2>
-            <p class="section-description">
-                Clone the repository and follow these steps to get started with Video-RAC.
-            </p>
+<!-- Usage -->
+<section id="usage" class="section">
+  <div class="container">
+    <h2 class="section-title">Usage</h2>
+    <p class="section-description">
+      Install <strong>VideoRAC</strong> from PyPI and follow the steps below to chunk videos and generate Q&amp;A.
+    </p>
 
-            <div class="code-block">
-                <div class="code-header">
-                    <span>bash</span>
-                    <button class="copy-btn" data-copy="install-code">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                    </button>
-                </div>
-                <pre id="install-code"><code># 1) Clone repository
-git clone https://github.com/your-org/video-rac.git
-cd video-rac
+    <div class="code-block">
+      <div class="code-header">
+        <span>bash / python</span>
+        <button class="copy-btn" data-copy="usage-code">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+      <pre id="usage-code"><code># ⚙️ Installation
+pip install VideoRAC
 
-# 2) Create virtual environment & install dependencies
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+# 🚀 Usage Example — 1️⃣ Hybrid Chunking
+from VideoRAC.Modules import HybridChunker
 
-# 3) Set up API keys
-export OPENAI_API_KEY=your_api_key_here
+chunker = HybridChunker(
+    clip_model="openai/clip-vit-base-patch32",
+    alpha=0.6,
+    threshold_embedding=0.85,
+    threshold_ssim=0.8,
+    interval=1,
+)
 
-# 4) Run demo
-python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
-            </div>
-        </div>
-    </section>
+# Returns: chunks (list), timestamps (start/end pairs), and total duration (seconds)
+chunks, timestamps, duration = chunker.chunk("lecture.mp4")
+
+# Optional: print evaluation metrics or visualizations
+chunker.evaluate()
+
+
+# 🚀 Usage Example — 2️⃣ Q&amp;A Generation
+# Make sure your OpenAI API key is set:
+# export OPENAI_API_KEY=your_api_key_here
+
+from VideoRAC.Modules import VideoQAGenerator
+
+def my_llm_fn(messages):
+    # Example using OpenAI client (replace with your preferred LLM)
+    from openai import OpenAI
+    client = OpenAI()
+    resp = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages
+    )
+    return resp.choices[0].message.content
+
+urls = ["https://www.youtube.com/watch?v=2uYu8nMR5O4"]
+qa = VideoQAGenerator(video_urls=urls, llm_fn=my_llm_fn)
+
+# Processes input videos and generates Q&amp;A
+qa.process_videos()</code></pre>
+    </div>
+  </div>
+</section>
+
+
 
     <!-- Resources -->
     <section id="resources" class="section">
@@ -497,7 +523,7 @@ python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
             <h2 class="section-title">Resources</h2>
             
             <div class="resources-grid">
-                <a href="#" class="resource-card">
+                <a href="https://ieeexplore.ieee.org/document/10967455" class="resource-card" target="_blank" rel="noopener noreferrer">
                     <svg class="resource-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
@@ -518,7 +544,7 @@ python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
                     <p>Hugging Face</p>
                 </a>
                 
-                <a href="https://github.com/your-org/video-rac" class="resource-card" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/PrismaticLab/Video-RAC/tree/main" class="resource-card" target="_blank" rel="noopener noreferrer">
                     <svg class="resource-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                     </svg>
@@ -718,13 +744,16 @@ python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
                         </svg>
                     </button>
                 </div>
-                <pre id="citation-code"><code>@article{vadarac2024,
-  title={Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG},
-  author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika 
-          and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
-  journal={arXiv preprint},
-  year={2024},
-  note={Dataset: \url{https://huggingface.co/datasets/UIAIC/EduViQA}}
+                <pre id="citation-code"><code>@INPROCEEDINGS{10967455,
+  author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
+  booktitle={2025 29th International Computer Conference, Computer Society of Iran (CSICC)}, 
+  title={Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Measurement;Visualization;Large language models;Pipelines;Retrieval augmented generation;Education;Question answering (information retrieval);Multilingual;Standards;Context modeling;Video QA;Datasets Preparation;Academic Question Answering;Multilingual},
+  doi={10.1109/CSICC65765.2025.10967455}}
 }</code></pre>
             </div>
         </div>
@@ -738,7 +767,7 @@ python demo.py --video /path/to/lecture.mp4 --mode multimodal</code></pre>
                 <div class="footer-links">
                     <a href="https://huggingface.co/datasets/UIAIC/EduViQA" target="_blank" rel="noopener noreferrer">Dataset</a>
                     <a href="https://github.com/PrismaticLab/Video-RAC" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="mailto:research@your-org.example">Contact</a>
+                    <a href="mailto:kia.vadaei@gmail.com">Contact</a>
                 </div>
             </div>
             <button class="back-to-top" id="backToTop" aria-label="Back to top">
