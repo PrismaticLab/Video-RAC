@@ -4,20 +4,7 @@
 
 </div>
 
----
-
-## 📖 Overview
-
-We present **Video-RAC**, an adaptive chunking methodology for lecture videos within Retrieval-Augmented Generation (RAG) pipelines. Using **CLIP embeddings** and **SSIM** to detect coherent slide transitions, plus **entropy-based keyframe selection**, we construct multimodal chunks that align audio transcripts and visual frames.
-
-Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persian/English) lecture dataset containing 20 videos from 5 professors across STEM and education topics. Each lecture is paired with 50 synthetic QA items and categorized by duration (40% mid-length, ~20–40 minutes) to support controlled RAG benchmarking.
-
-**Key Highlights:**
-- ✨ **Adaptive chunking** using CLIP embeddings and SSIM for semantic segmentation
-- 🌍 **Bilingual dataset** (Persian & English) with 20 educational videos
-- 📊 **50 QA pairs per video** for comprehensive evaluation
-- 🎯 **RAGAS evaluation** showing +12-15% improvement over baseline methods
-- 🔥 **Multimodal (image+text)** retrieval achieves best performance
+<div align="center">
 
 <img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/logo.png?raw=true" alt="VideoRAC Logo" width="300"/>
 
@@ -40,25 +27,26 @@ Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persia
 
 <div align="center">
 
-| Metric | Value |
-|--------|-------|
-| **Total Videos** | 20 (10 Persian, 10 English) |
-| **Professors** | 5 |
-| **Duration Focus** | 40% mid-length (20–40 minutes) |
-| **QA Pairs per Video** | 50 synthetic QA pairs |
-| **Format** | JSON annotations |
+<!-- ✨ Placeholder for horizontal pipeline image ✨ -->
 
 <img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/fig-2.png?raw=true" alt="VideoRAC Pipeline" width="900"/>
 
-The dataset also captures slide transitions and keyframes extracted via CLIP+SSIM chunking, enabling multimodal retrieval experiments with aligned visuals and transcripts.
-
-**📥 Access Dataset:** [Hugging Face - EduViQA](https://huggingface.co/datasets/UIAIC/EduViQA)
+</div>
 
 ---
 
 ## 📖 Overview
 
-**VideoRAC** (Video Retrieval-Adaptive Chunking) provides a comprehensive framework for multimodal retrieval-augmented generation (RAG) in educational videos. This toolkit integrates **visual-semantic chunking**, **entropy-based keyframe selection**, and **LLM-driven question generation** to enable effective multimodal retrieval.
+We present **Video-RAC**, an adaptive chunking methodology for lecture videos within Retrieval-Augmented Generation (RAG) pipelines. Using **CLIP embeddings** and **SSIM** to detect coherent slide transitions, plus **entropy-based keyframe selection**, we construct multimodal chunks that align audio transcripts and visual frames.
+
+Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persian/English) lecture dataset containing 20 videos from 5 professors across STEM and education topics. Each lecture is paired with 50 synthetic QA items and categorized by duration (40% mid-length, ~20–40 minutes) to support controlled RAG benchmarking.
+
+**Key Highlights:**
+- ✨ **Adaptive chunking** using CLIP embeddings and SSIM for semantic segmentation
+- 🌍 **Bilingual dataset** (Persian & English) with 20 educational videos
+- 📊 **50 QA pairs per video** for comprehensive evaluation
+- 🎯 **RAGAS evaluation** showing +12-15% improvement over baseline methods
+- 🔥 **Multimodal (image+text)** retrieval achieves best performance
 
 This repository is the **official implementation** of the CSICC 2025 paper by *Hemmat et al.*
 
