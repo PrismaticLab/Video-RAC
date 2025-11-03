@@ -15,6 +15,7 @@ from langchain.schema import Document
 from VideoRAC.utils.logging_utils import get_logger_handler
 
 logger = logging.getLogger(__name__)
+logger.propagate = False
 if not logger.hasHandlers():
     logger.addHandler(get_logger_handler())
 logger.setLevel(logging.INFO)

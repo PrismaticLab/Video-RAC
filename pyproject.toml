@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "VideoRAC"
-version = "0.2.1"
+version = "0.2.7"
 description = "Video Retrieval-Augmented Chunking and Q&A Generation Toolkit"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -41,6 +41,8 @@ dependencies = [
   "scikit-image>=0.22",
   "scipy>=1.10",
   "langchain>=0.2.0",
+  "colorlog>=6.9.0",
+  "Pillow>=9.5",
   # torch is platform-specific; recommend users install it per PyTorch docs
   # "torch>=2.1"   # Uncomment if you want to force-install from PyPI wheels
 ]
