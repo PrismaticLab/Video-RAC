@@ -18,6 +18,8 @@
 
 We present **Video-RAC**, an adaptive chunking methodology for lecture videos within Retrieval-Augmented Generation (RAG) pipelines. Using **CLIP embeddings** and **SSIM** to detect coherent slide transitions, plus **entropy-based keyframe selection**, we construct multimodal chunks that align audio transcripts and visual frames.
 
+Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persian/English) lecture dataset containing 20 videos from 5 professors across STEM and education topics. Each lecture is paired with 50 synthetic QA items and categorized by duration (40% mid-length, ~20–40 minutes) to support controlled RAG benchmarking.
+
 **Key Highlights:**
 - ✨ **Adaptive chunking** using CLIP embeddings and SSIM for semantic segmentation
 - 🌍 **Bilingual dataset** (Persian & English) with 20 educational videos
@@ -56,9 +58,9 @@ Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithful
 |--------|-------|
 | **Total Videos** | 20 (10 Persian, 10 English) |
 | **Professors** | 5 |
-| **Duration Mix** | ~25% short, 40% mid, 35% long |
-| **QA Pairs per Video** | 50 |
-| **Format** | JSON |
+| **Duration Focus** | 40% mid-length (20–40 minutes) |
+| **QA Pairs per Video** | 50 synthetic QA pairs |
+| **Format** | JSON annotations |
 
 ### Topics Covered
 - Computer Architecture
@@ -69,6 +71,8 @@ Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithful
 - Regions in Human Geography
 - Differentiated Instruction
 - Business
+
+The dataset also captures slide transitions and keyframes extracted via CLIP+SSIM chunking, enabling multimodal retrieval experiments with aligned visuals and transcripts.
 
 **📥 Access Dataset:** [Hugging Face - EduViQA](https://huggingface.co/datasets/UIAIC/EduViQA)
 
