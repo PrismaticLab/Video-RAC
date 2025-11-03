@@ -49,11 +49,25 @@ This repository is the **official implementation** of the CSICC 2025 paper by *H
 
 ---
 
+## 🧠 Research Background
+
+This framework underpins the **EduViQA bilingual dataset**, designed for evaluating lecture-based RAG systems in both Persian and English. The dataset and code form a unified ecosystem for multimodal question generation and retrieval evaluation.
+
+**Key Contributions:**
+
+* 🎥 Adaptive Hybrid Chunking — Combines CLIP cosine similarity with SSIM-based visual comparison.
+* 🧮 Entropy-Based Keyframe Selection — Extracts high-information frames for retrieval.
+* 🗣️ Transcript–Frame Alignment — Synchronizes ASR transcripts with visual semantics.
+* 🔍 Multimodal Retrieval — Integrates visual and textual embeddings for RAG.
+* 🧠 Benchmark Dataset — 20 bilingual educational videos with 50 QA pairs each.
+
+---
+
 ## 📊 Dataset
 
 ### EduViQA: Bilingual Educational Video QA Dataset
 
-![Dataset Composition](src/assets/fig-1.png)
+![Dataset Composition](docs/assets/fig-1.png)
 *Dataset composition highlighting topic distribution and lecture duration proportions.*
 
 ### Dataset Statistics
@@ -79,20 +93,6 @@ This repository is the **official implementation** of the CSICC 2025 paper by *H
 The dataset also captures slide transitions and keyframes extracted via CLIP+SSIM chunking, enabling multimodal retrieval experiments with aligned visuals and transcripts.
 
 **📥 Access Dataset:** [Hugging Face - EduViQA](https://huggingface.co/datasets/UIAIC/EduViQA)
-
----
-
-## 🧠 Research Background
-
-This framework underpins the **EduViQA bilingual dataset**, designed for evaluating lecture-based RAG systems in both Persian and English. The dataset and code form a unified ecosystem for multimodal question generation and retrieval evaluation.
-
-**Key Contributions:**
-
-* 🎥 Adaptive Hybrid Chunking — Combines CLIP cosine similarity with SSIM-based visual comparison.
-* 🧮 Entropy-Based Keyframe Selection — Extracts high-information frames for retrieval.
-* 🗣️ Transcript–Frame Alignment — Synchronizes ASR transcripts with visual semantics.
-* 🔍 Multimodal Retrieval — Integrates visual and textual embeddings for RAG.
-* 🧠 Benchmark Dataset — 20 bilingual educational videos with 50 QA pairs each.
 
 ---
 
