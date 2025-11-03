@@ -1,6 +1,7 @@
 import logging
 import math
 import os
+import json
 from pathlib import Path
 from time import time
 
@@ -16,6 +17,7 @@ from VideoRAC.utils.logging_utils import get_logger_handler
 
 
 logger = logging.getLogger(__name__)
+logger.propagate = False
 if not logger.hasHandlers():
     logger.addHandler(get_logger_handler())
 logger.setLevel(logging.INFO)
@@ -255,6 +257,138 @@ class HybridChunker:
         return saved_paths
 
     # -------------------------------------------------------------------------
+    # NEW: Selected-frames helper (private)
+    # -------------------------------------------------------------------------
+
+    def _select_best_frames_per_chunk(
+        self,
+        *,
+        output_dir: str | os.PathLike | None = None,
+        image_format: str | None = None,
+        prefix: str | None = None,
+    ) -> list[list[Path]]:
+        """
+        For each chunk, compute entropy for all frames and select:
+        - first frame
+        - frame with maximum entropy
+        - last frame
+
+        Saves selected frames under: {output_dir}/selected_frames/{prefix_}chunk_xxxx
+        """
+        if not self._chunks:
+            logger.warning("ℹ️ No chunks available for selection.")
+            return []
+
+        fmt = (image_format or self._image_format).lower().strip(".")
+        root = Path(output_dir) if output_dir is not None else self._output_dir
+        sel_root = root / "selected_frames"
+        self._ensure_dir(sel_root)
+
+        all_selected_paths: list[list[Path]] = []
+
+        try:
+            for c_idx, frames in enumerate(self._chunks, start=1):
+                if not frames:
+                    all_selected_paths.append([])
+                    continue
+
+                # Compute entropies on grayscale copies
+                entropies = []
+                for frame in frames:
+                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    entropies.append(E.calculate_entropy(gray))
+
+                # Determine indices to keep: first, argmax, last (deduped, order preserved)
+                idx_first = 0
+                idx_max = int(max(range(len(entropies)), key=lambda i: entropies[i]))
+                idx_last = len(frames) - 1
+                ordered_unique = []
+                for idx in (idx_first, idx_max, idx_last):
+                    if idx not in ordered_unique:
+                        ordered_unique.append(idx)
+
+                # Save selected frames
+                chunk_dir_name = f"{(prefix + '_') if prefix else ''}chunk_{c_idx:04d}"
+                out_dir = sel_root / chunk_dir_name
+                self._ensure_dir(out_dir)
+
+                sel_paths: list[Path] = []
+                for idx in ordered_unique:
+                    out_path = out_dir / f"frame_{(idx+1):04d}.{fmt}"
+                    ok = cv2.imwrite(str(out_path), frames[idx])
+                    if not ok:
+                        raise RuntimeError(f"cv2.imwrite returned False for {out_path}")
+                    sel_paths.append(out_path)
+
+                all_selected_paths.append(sel_paths)
+
+            logger.info("🌟 Saved selected frames for %d chunks to %s ✅", len(all_selected_paths), sel_root)
+            return all_selected_paths
+
+        except Exception as e:
+            logger.exception("💥 Error selecting/saving best frames: %s", e)
+            raise
+
+    # -------------------------------------------------------------------------
+    # NEW: Metadata helper (private)
+    # -------------------------------------------------------------------------
+
+    def _save_metadata(
+        self,
+        *,
+        video_path: str,
+        timestamps: list[float],
+        output_dir: str | os.PathLike | None = None,
+        image_format: str | None = None,
+        prefix: str | None = None,
+    ) -> Path:
+        """
+        Save a JSON metadata file describing the run, including:
+        - video info, timestamps, counts, config, execution time, and stats.
+        """
+        try:
+            fmt = (image_format or self._image_format).lower().strip(".")
+            root = Path(output_dir) if output_dir is not None else self._output_dir
+            self._ensure_dir(root)
+
+            video_p = Path(video_path)
+            num_chunks = len(self._chunks) if self._chunks else 0
+            frames_per_chunk = [len(c) for c in (self._chunks or [])]
+            total_frames = int(sum(frames_per_chunk)) if frames_per_chunk else 0
+
+            meta = {
+                "video_name": video_p.name,
+                "video_path": str(video_p),
+                "clip_model": self._clip_model_id,
+                "threshold_embedding": self._threshold_embedding,
+                "threshold_ssim": self._threshold_ssim,
+                "interval_seconds": self._interval,
+                "alpha": self._alpha,
+                "image_format": fmt,
+                "output_dir": str(root),
+                "chunks_root": str(root),
+                "selected_frames_root": str(root / "selected_frames"),
+                "timestamps_seconds": timestamps or [],
+                "num_chunks": num_chunks,
+                "frames_per_chunk": frames_per_chunk,
+                "total_frames": total_frames,
+                "execution_time_seconds": self._exe_time,
+                "avg_frame_per_chunk": self._avg_frame_per_chunk,
+                "mean_entropy": self._mean_entropy,
+            }
+
+            meta_name = f"{(prefix + '_') if prefix else ''}{video_p.stem}_metadata.json"
+            meta_path = root / meta_name
+            with meta_path.open("w", encoding="utf-8") as f:
+                json.dump(meta, f, ensure_ascii=False, indent=2)
+
+            logger.info("🗂️ Metadata saved to %s ✅", meta_path)
+            return meta_path
+        except Exception as e:
+            logger.exception("💥 Failed to save metadata: %s", e)
+            raise
+
+    # -------------------------------------------------------------------------
     # Core internals
     # -------------------------------------------------------------------------
 
@@ -455,7 +589,22 @@ class HybridChunker:
                         self._exe_time, len(self._chunks) if self._chunks else 0)
 
             if save:
+                # 1) Save selected frames per chunk (first, max-entropy, last) in a sibling dir
+                self._select_best_frames_per_chunk(
+                    output_dir=output_dir,
+                    image_format=image_format,
+                    prefix=prefix,
+                )
+                # 2) Save all frames per chunk as before (original behavior)
                 self._save_chunks(
+                    output_dir=output_dir,
+                    image_format=image_format,
+                    prefix=prefix,
+                )
+                # 3) Save metadata JSON at the very end
+                self._save_metadata(
+                    video_path=video_path,
+                    timestamps=slide_change_timestamps,
                     output_dir=output_dir,
                     image_format=image_format,
                     prefix=prefix,
