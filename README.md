@@ -41,18 +41,44 @@ We present **Video-RAC**, an adaptive chunking methodology for lecture videos wi
 
 Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persian/English) lecture dataset containing 20 videos from 5 professors across STEM and education topics. Each lecture is paired with 50 synthetic QA items and categorized by duration (40% mid-length, ~20–40 minutes) to support controlled RAG benchmarking.
 
-**Key Highlights:**
-- ✨ **Adaptive chunking** using CLIP embeddings and SSIM for semantic segmentation
-- 🌍 **Bilingual dataset** (Persian & English) with 20 educational videos
-- 📊 **50 QA pairs per video** for comprehensive evaluation
-- 🎯 **RAGAS evaluation** showing +12-15% improvement over baseline methods
-- 🔥 **Multimodal (image+text)** retrieval achieves best performance
-
 This repository is the **official implementation** of the CSICC 2025 paper by *Hemmat et al.*
 
 > **Hemmat, A., Vadaei, K., Shirian, M., Heydari, M.H., Fatemi, A.**
 > *“Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset.”*
 > *Proceedings of the 30th International Computer Society of Iran Computer Conference (CSICC 2025), University of Isfahan.*
+
+---
+
+## 📊 Dataset
+
+### EduViQA: Bilingual Educational Video QA Dataset
+
+![Dataset Composition](src/assets/fig-1.png)
+*Dataset composition highlighting topic distribution and lecture duration proportions.*
+
+### Dataset Statistics
+
+| Metric | Value |
+|--------|-------|
+| **Total Videos** | 20 (10 Persian, 10 English) |
+| **Professors** | 5 |
+| **Duration Focus** | 40% mid-length (20–40 minutes) |
+| **QA Pairs per Video** | 50 synthetic QA pairs |
+| **Format** | JSON annotations |
+
+### Topics Covered
+- Computer Architecture
+- Data Structures
+- System Dynamics and Control
+- Teaching Skills
+- Descriptive Research
+- Regions in Human Geography
+- Differentiated Instruction
+- Business
+
+The dataset also captures slide transitions and keyframes extracted via CLIP+SSIM chunking, enabling multimodal retrieval experiments with aligned visuals and transcripts.
+
+**📥 Access Dataset:** [Hugging Face - EduViQA](https://huggingface.co/datasets/UIAIC/EduViQA)
 
 ---
 
