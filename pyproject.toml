@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "VideoRAC"
+version = "0.2.7"
+description = "Video Retrieval-Augmented Chunking and Q&A Generation Toolkit"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "CC BY 4.0" }  # Creative Commons Attribution 4.0
+authors = [
+  { name = "Melika Shirian", email = "m.shirian@gmail.com" },
+  { name = "Kianoosh Vadaei", email = "k.vadaei@eng.ui.ac.ir" },
+  { name = "Arshia Hemmat", email = "amirarshia.hemmat@kellogg.ox.ac.uk" },
+  { name = "Mohammad Hassan Heydari", email = "heidary0081@gmail.com" },
+  { name = "Afsaneh Fatemi", email = "a.fatemi@eng.ui.ac.ir" }
+]
+keywords = ["video", "rag", "chunking", "qa", "clip", "ssim", "yt-dlp", "multimodal_rag"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: Other/Proprietary License",  # NOTE: PyPI doesn't have an official CC BY 4.0 trove classifier
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Multimedia :: Video",
+]
+
+dependencies = [
+  "opencv-python>=4.7",
+  "tqdm>=4.65",
+  "yt-dlp>=2024.8.6",
+  "youtube-transcript-api>=0.6.2",
+  "transformers>=4.41",
+  "scikit-image>=0.22",
+  "scipy>=1.10",
+  "langchain>=0.2.0",
+  "colorlog>=6.9.0",
+  "Pillow>=9.5",
+  # torch is platform-specific; recommend users install it per PyTorch docs
+  # "torch>=2.1"   # Uncomment if you want to force-install from PyPI wheels
+]
+
+[project.urls]
+Homepage = "https://prismaticlab.github.io/Video-RAC/"       # update
+Repository = "https://github.com/PrismaticLab/Video-RAC"     # update
+Issues = "https://github.com/PrismaticLab/Video-RAC/issues"  # update
+Documentation = "https://prismaticlab.github.io/Video-RAC/"  # update
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["VideoRAC", "VideoRAC.*"]
+
+# Optional: expose a CLI later if you add a main() somewhere
+# [project.scripts]
+# videorac = "VideoRAC.Modules.qa_generation:main"

@@ -1,0 +1,10 @@
+opencv-python>=4.7
+tqdm>=4.65
+yt-dlp>=2024.8.6
+youtube-transcript-api>=0.6.2
+transformers>=4.41
+scikit-image>=0.22
+scipy>=1.10
+langchain>=0.2.0
+colorlog>=6.9.0
+torch>=2.8.0

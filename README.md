@@ -1,14 +1,6 @@
-# Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG
-
 <div align="center">
 
-![Video-RAC Logo](src/assets/logo.png)
-
-**An adaptive chunking methodology for lecture videos using CLIP embeddings and SSIM to construct multimodal chunks for enhanced RAG performance**
-
-[![Paper](https://img.shields.io/badge/Paper-IEEE-blue)](https://ieeexplore.ieee.org/document/10967455/)
-[![Dataset](https://img.shields.io/badge/Dataset-EduViQA-orange)](https://huggingface.co/datasets/UIAIC/EduViQA)
-[![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://www.python.org/downloads/)
+# 🪄🎓 **VideoRAC**: *Retrieval-Adaptive Chunking for Lecture Video RAG*
 
 </div>
 
@@ -27,32 +19,26 @@ Alongside the method, we release **EduViQA**, a slide-centric, bilingual (Persia
 - 🎯 **RAGAS evaluation** showing +12-15% improvement over baseline methods
 - 🔥 **Multimodal (image+text)** retrieval achieves best performance
 
+<img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/logo.png?raw=true" alt="VideoRAC Logo" width="300"/>
+
+### 🏛️ *Official CSICC 2025 Implementation*
+
+#### "Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset"
+
+*(Presented at the 30th International Computer Society of Iran Computer Conference — CSICC 2025)*
+
+[![Paper](https://img.shields.io/badge/Paper-CSICC%202025-blue)](https://ieeexplore.ieee.org/document/10967455)
+[![Dataset](https://img.shields.io/badge/Dataset-EduViQA-orange)](https://huggingface.co/datasets/UIAIC/EduViQA)
+[![Python](https://img.shields.io/badge/Python-3.9+-green.svg)](https://www.python.org/downloads/)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
+
+</div>
+
 ---
 
-## 🎯 Key Contributions
+## 📊 Project Pipeline
 
-### 1. **Adaptive Video Chunking**
-Semantic segmentation using CLIP embeddings and SSIM to detect slide transitions and construct coherent chunks.
-
-### 2. **Bilingual Educational Dataset**
-Curated collection of Persian & English lectures with mid/long duration and 50 QA pairs per video. Available on [Hugging Face](https://huggingface.co/datasets/UIAIC/EduViQA).
-
-### 3. **Low-Resource Friendly Pipeline**
-Efficient multimodal integration using VLMs with FAISS-based retrieval and temporal mapping.
-
-### 4. **RAGAS Evaluation**
-Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithfulness metrics.
-
----
-
-## 📊 Dataset
-
-### EduViQA: Bilingual Educational Video QA Dataset
-
-![Dataset Composition](src/assets/fig-1.png)
-*Dataset composition highlighting topic distribution and lecture duration proportions.*
-
-### Dataset Statistics
+<div align="center">
 
 | Metric | Value |
 |--------|-------|
@@ -62,15 +48,7 @@ Comprehensive evaluation using Answer Relevance, Context Relevance, and Faithful
 | **QA Pairs per Video** | 50 synthetic QA pairs |
 | **Format** | JSON annotations |
 
-### Topics Covered
-- Computer Architecture
-- Data Structures
-- System Dynamics and Control
-- Teaching Skills
-- Descriptive Research
-- Regions in Human Geography
-- Differentiated Instruction
-- Business
+<img src="https://github.com/PrismaticLab/Video-RAC/blob/main/docs/assets/fig-2.png?raw=true" alt="VideoRAC Pipeline" width="900"/>
 
 The dataset also captures slide transitions and keyframes extracted via CLIP+SSIM chunking, enabling multimodal retrieval experiments with aligned visuals and transcripts.
 
@@ -78,151 +56,124 @@ The dataset also captures slide transitions and keyframes extracted via CLIP+SSI
 
 ---
 
-## 🔬 Method
+## 📖 Overview
 
-![Pipeline Diagram](src/assets/fig-2.png)
-*Pipeline demonstrating adaptive chunking with CLIP embeddings, frame selection, and audio-transcript alignment for optimal RAG integration.*
+**VideoRAC** (Video Retrieval-Adaptive Chunking) provides a comprehensive framework for multimodal retrieval-augmented generation (RAG) in educational videos. This toolkit integrates **visual-semantic chunking**, **entropy-based keyframe selection**, and **LLM-driven question generation** to enable effective multimodal retrieval.
 
-### Pipeline Stages
+This repository is the **official implementation** of the CSICC 2025 paper by *Hemmat et al.*
 
-1. **Adaptive Chunking (CLIP + SSIM)**: Segment videos into semantically coherent chunks by detecting slide transitions using cosine similarity of CLIP embeddings combined with SSIM.
-
-2. **Frame Selection by Entropy**: For each chunk, select three keyframes: maximum entropy frame, first frame, and last frame.
-
-3. **Audio Transcript Chunking**: Recursively split audio transcripts into text chunks using semantic boundaries.
-
-4. **Retrieval**: Use OpenAI's text-embedding-3-large for embeddings; FAISS for efficient cosine similarity search.
-
-5. **Generation & Evaluation**: Evaluate using RAGAS metrics across text-only, image-only, and multimodal scenarios.
-
-### Algorithms Compared
-
-| Method | Cost | Semantic Awareness | Robustness | Notes |
-|--------|------|-------------------|------------|-------|
-| **Heuristic** | Low | ❌ | Low | Fixed time intervals |
-| **CLIP** | Medium | ✅ | Medium | Semantic embeddings |
-| **BLIP** | High | ✅ | High | Vision-language model |
-| **Ours (CLIP+SSIM)** | Medium | ✅ | High | **Best performance** |
+> **Hemmat, A., Vadaei, K., Shirian, M., Heydari, M.H., Fatemi, A.**
+> *“Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset.”*
+> *Proceedings of the 30th International Computer Society of Iran Computer Conference (CSICC 2025), University of Isfahan.*
 
 ---
 
-## 📈 Results
+## 🧠 Research Background
 
-### Performance Comparison
+This framework underpins the **EduViQA bilingual dataset**, designed for evaluating lecture-based RAG systems in both Persian and English. The dataset and code form a unified ecosystem for multimodal question generation and retrieval evaluation.
 
-| Chunking | Scenario | GPT-4o | | | Llama 3.2 | | |
-|----------|----------|--------|------|------|-----------|------|-----|
-| | | AR | CR | F | AR | CR | F |
-| **Adaptive (Ours)** | Image+Text | **0.87** | **0.82** | **0.91** | **0.85** | **0.79** | **0.88** |
-| | Text-only | 0.81 | 0.75 | 0.85 | 0.78 | 0.72 | 0.82 |
-| | Image-only | 0.74 | 0.68 | 0.78 | 0.71 | 0.65 | 0.75 |
-| Simple Slicing | Image+Text | 0.75 | 0.70 | 0.80 | 0.72 | 0.67 | 0.77 |
-| | Text-only | 0.72 | 0.67 | 0.76 | 0.69 | 0.64 | 0.73 |
-| | Image-only | 0.68 | 0.63 | 0.72 | 0.65 | 0.60 | 0.69 |
+**Key Contributions:**
 
-**Key Findings:**
-- ✅ Adaptive chunking outperforms simple slicing by **+12-15%** across all metrics
-- ✅ **Multimodal (image+text)** retrieval consistently achieves highest RAGAS scores
-- ✅ Strong performance with both GPT-4o and Llama 3.2
+* 🎥 Adaptive Hybrid Chunking — Combines CLIP cosine similarity with SSIM-based visual comparison.
+* 🧮 Entropy-Based Keyframe Selection — Extracts high-information frames for retrieval.
+* 🗣️ Transcript–Frame Alignment — Synchronizes ASR transcripts with visual semantics.
+* 🔍 Multimodal Retrieval — Integrates visual and textual embeddings for RAG.
+* 🧠 Benchmark Dataset — 20 bilingual educational videos with 50 QA pairs each.
 
 ---
 
-## 🚀 Usage
-
-### Installation
+## ⚙️ Installation
 
 ```bash
-# 1) Clone repository
-git clone https://github.com/your-org/video-rac.git
-cd video-rac
-
-# 2) Create virtual environment & install dependencies
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-# 3) Set up API keys
-export OPENAI_API_KEY=your_api_key_here
-
-# 4) Run demo
-python demo.py --video /path/to/lecture.mp4 --mode multimodal
-```
-
-### Quick Start
-
-```python
-from video_rac import VideoRACProcessor
-
-# Initialize processor
-processor = VideoRACProcessor()
-
-# Process a lecture video
-result = processor.chunk_and_embed(
-    video_path="lecture.mp4",
-    mode="multimodal"  # Options: 'multimodal', 'text-only', 'image-only'
-)
-
-# Generate QA with RAG
-qa_result = processor.generate_qa(
-    question="What are the key principles discussed?",
-    chunks=result.chunks
-)
+pip install VideoRAC
 ```
 
 ---
 
-## 📁 Resources
+## 🚀 Usage Example
 
-- **📄 Paper**: [IEEE Xplore](https://ieeexplore.ieee.org/document/10967455/)
-- **📊 Dataset**: [Hugging Face - EduViQA](https://huggingface.co/datasets/UIAIC/EduViQA)
-- **💻 Code**: [GitHub Repository](https://github.com/your-org/video-rac)
+### 1️⃣ Hybrid Chunking
+
+```python
+from VideoRAC.Modules import HybridChunker
+
+chunker = HybridChunker(
+    clip_model='openai/clip-vit-base-patch32',
+    alpha=0.6,
+    threshold_embedding=0.85,
+    threshold_ssim: float=0.8,
+    interval: int=1,
+)
+chunks, timestamps, duration = chunker.chunk("lecture.mp4")
+chunker.evaluate()
+```
+
+### 2️⃣ Q&A Generation
+
+```python
+from VideoRAC.Modules import VideoQAGenerator
+
+def my_llm_fn(messages):
+    from openai import OpenAI
+    client = OpenAI()
+    response = client.chat.completions.create(model="gpt-4o", messages=messages)
+    return response.choices[0].message.content
+
+urls = ["https://www.youtube.com/watch?v=2uYu8nMR5O4"]
+qa = VideoQAGenerator(video_urls=urls, llm_fn=my_llm_fn)
+qa.process_videos()
+```
+
+---
+
+## 📈 Results Summary (CSICC 2025)
+
+| Method                   | AR       | CR       | F        | Notes                        |
+| ------------------------ | -------- | -------- | -------- | ---------------------------- |
+| **VideoRAC (CLIP+SSIM)** | **0.87** | **0.82** | **0.91** | Best performance overall     |
+| CLIP-only                | 0.80     | 0.75     | 0.83     | Weaker temporal segmentation |
+| Simple Slicing           | 0.72     | 0.67     | 0.76     | Time-based only              |
+
+> Evaluated using RAGAS metrics: *Answer Relevance (AR)*, *Context Relevance (CR)*, and *Faithfulness (F)*.
+
+---
+
+## 🧾 License
+
+Licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
+
+You may share and adapt this work with attribution. Please cite our paper when using VideoRAC or EduViQA:
+
+```bibtex
+@INPROCEEDINGS{10967455,
+  author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
+  booktitle={2025 29th International Computer Conference, Computer Society of Iran (CSICC)}, 
+  title={Adaptive Chunking for VideoRAG Pipelines with a Newly Gathered Bilingual Educational Dataset}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Measurement;Visualization;Large language models;Pipelines;Retrieval augmented generation;Education;Question answering (information retrieval);Multilingual;Standards;Context modeling;Video QA;Datasets Preparation;Academic Question Answering;Multilingual},
+  doi={10.1109/CSICC65765.2025.10967455}}
+```
 
 ---
 
 ## 👥 Authors
 
-**Department of Computer Engineering, University of Isfahan**
+**University of Isfahan — Department of Computer Engineering**
 
-- **Arshia Hemmat** - a.hemmat@eng.ui.ac.ir - [GitHub](https://github.com/arshiarashneh)
-- **Kianoosh Vadaei** - k.vadaei@eng.ui.ac.ir - [GitHub](https://github.com/kianooshvadaei)
-- **Melika Shirian** - m.shirian@eng.ui.ac.ir - [GitHub](https://github.com/melikashirian)
-- **Mohammad Hassan Heydari** - mh.heydari@eng.ui.ac.ir - [GitHub](https://github.com/mhheydari)
-- **Afsaneh Fatemi** - a.fatemi@eng.ui.ac.ir - [GitHub](https://github.com/afsanehfatemi)
-
-### Acknowledgments
-
-We thank Mehran Rezaei, Ajarn Olli, Chris Drew, and Rick Hill for providing educational video content that made this dataset possible.
-
----
-
-## 📝 Citation
-
-If you use Video-RAC or the EduViQA dataset in your research, please cite our work:
-
-```bibtex
-@article{vadarac2024,
-  title={Video-RAC: Retrieval Adaptive Chunking for Lecture Video RAG},
-  author={Hemmat, Arshia and Vadaei, Kianoosh and Shirian, Melika 
-          and Heydari, Mohammad Hassan and Fatemi, Afsaneh},
-  journal={arXiv preprint},
-  year={2024},
-  note={Dataset: \url{https://huggingface.co/datasets/UIAIC/EduViQA}}
-}
-```
-
----
-
-## 📄 License
-
-[Add your license here]
+* **Kianoosh Vadaei** — [kia.vadaei@gmail.com](mailto:kia.vadaei@gmail.com)
+* **Melika Shirian** — [mel.shirian@gmail.com](mailto:mel.shirian@gmail.com)
+* **Arshia Hemmat** — [amirarshia.hemmat@kellogg.ox.ac.uk](mailto:amirarshia.hemmat@kellogg.ox.ac.uk)
+* **Mohammad Hassan Heydari** — [heidary0081@gmail.com](mailto:heidary0081@gmail.com)
+* **Afsaneh Fatemi** — [a.fatemi@eng.ui.ac.ir](mailto:a.fatemi@eng.ui.ac.ir)
 
 ---
 
 <div align="center">
 
-**⭐ If you find this project useful, please consider giving it a star! ⭐**
-
-Made with ❤️ at University of Isfahan
+**⭐ Official CSICC 2025 Implementation — Give it a star if you use it in your research! ⭐**
+*Made with ❤️ at University of Isfahan*
 
 </div>
-
