@@ -185,14 +185,14 @@ You may share and adapt this work with attribution. Please cite our paper when u
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=PrismaticLab/Video-RAC&type=date&legend=top-left)](https://www.star-history.com/#PrismaticLab/Video-RAC&type=date&legend=top-left)
+
+---
 <div align="center">
 
 **⭐ Official CSICC 2025 Implementation — Give it a star if you use it in your research! ⭐**
 *Made with ❤️ at University of Isfahan*
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=PrismaticLab/Video-RAC&type=date&legend=top-left)](https://www.star-history.com/#PrismaticLab/Video-RAC&type=date&legend=top-left)
 
 </div>
